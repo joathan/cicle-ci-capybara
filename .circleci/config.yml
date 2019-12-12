@@ -12,6 +12,10 @@ jobs:
   build:
     docker:
       - image: circleci/ruby:2.6.4-stretch-node
+      - image: postgres:9.6.9
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: posts_generator_test
     steps:
       - checkout
       # - run: echo "A first hello"
