@@ -2,23 +2,22 @@
 #
 # Check https://circleci.com/docs/2.0/ruby/ for more details
 #
-version: 2
+version: 2.1
+
+
+orbs:
+  ruby: circleci/ruby@0.2.1 # Ruby orb registry: https://circleci.com/orbs/registry/orb/circleci/ruby
 
 jobs:
   build:
     docker:
-      - image: circleci/ruby:2.6.4-node-browsers
+      - image: circleci/ruby:2.6.4-stretch-node
     steps:
       - checkout
       - run:
           name: Which bundler?
           command: bundle -v
       - ruby/bundle-install
-      # - run:
-      #     name: Rubocop 🤖
-      #     command: |
-      #       PROJECTFILES=$(circleci tests glob "app/**/*.rb" | circleci tests split --split-by=timings)
-      #       bundle exec rubocop -- ${PROJECTFILES}
       - run:
           name: Running Tests 🏃
           command: |
