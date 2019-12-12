@@ -2,11 +2,11 @@
 #
 # Check https://circleci.com/docs/2.0/ruby/ for more details
 #
-version: 2.1
+version: 2
 
 
-orbs:
-  ruby: circleci/ruby@0.1.2 # Ruby orb registry: https://circleci.com/orbs/registry/orb/circleci/ruby
+# orbs:
+#   ruby: circleci/ruby@0.1.2 # Ruby orb registry: https://circleci.com/orbs/registry/orb/circleci/ruby
 
 jobs:
   build:
@@ -14,10 +14,13 @@ jobs:
       - image: circleci/ruby:2.6.4-stretch-node
     steps:
       - checkout
+      # - run: echo "A first hello"
+      # - run: touch ~/.gemrc
+      # - run: echo "gem: --no-document" > ~/.gemrc
       - run:
           name: Which bundler?
           command: bundle -v
-      - ruby/bundle-install
+      - run: bundle install
       - run:
           name: Running Tests 🏃
           command: |
