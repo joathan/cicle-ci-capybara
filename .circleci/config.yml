@@ -11,13 +11,23 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/ruby:2.6.4-stretch-node
+      - image: circleci/ruby:2.6.4-node-browsers
     steps:
       - checkout
       - run:
           name: Which bundler?
           command: bundle -v
       - ruby/bundle-install
-
+      # - run:
+      #     name: Rubocop 🤖
+      #     command: |
+      #       PROJECTFILES=$(circleci tests glob "app/**/*.rb" | circleci tests split --split-by=timings)
+      #       bundle exec rubocop -- ${PROJECTFILES}
+      - run:
+          name: Running Tests 🏃
+          command: |
+            TESTFILES=$(circleci tests glob "spec/{acceptance,controllers,drops,features,helpers,javascript,listeners,mail_interceptors,mailers,models,serializers,services,workers,lib}/**/*.rb" | circleci tests split --split-by=timings)
+            echo ${TESTFILES}
+            bundle exec rspec --profile --format progress --format RspecJunitFormatter --out $CIRCLE_TEST_REPORTS/rspec.xml -- ${TESTFILES}
 # What to do next? Set up a test job. Please see
 # https://circleci.com/docs/2.0/configuration-reference/, for more  info on how to get started.
